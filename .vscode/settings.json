@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"*.tsx": "xml",
+		"main.h": "c",
+		"file.h": "c"
+	}
+}
