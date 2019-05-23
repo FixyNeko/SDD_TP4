@@ -1,0 +1,3 @@
+hello;bonjour
+bye;au revoir
+sorry;pardon
