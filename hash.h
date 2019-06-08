@@ -12,6 +12,11 @@ typedef struct cellule
 	struct cellule *suivant;
 } cellule_t;
 
+typedef struct table_maj {
+	cellule_t* sous_table;
+	int taille;
+} table_maj_t;
+
 typedef struct liste
 {
 	struct liste *premier;
@@ -19,7 +24,10 @@ typedef struct liste
 
 
 unsigned int hash_string(const char *str);
-void lecture_fichier(char *nom_fichier, cellule_t **tab_maj);
-void crea_sous_table(cellule_t **tab_maj, char *cle, char* val);
-void init_tab(cellule_t **tab);
-
+void lecture_fichier(char *nom_fichier, table_maj_t * tab_maj);
+void ajout_valeur(table_maj_t * tab_maj, char * cle, char * val);
+void init_tab(table_maj_t * tab);
+void affiche_sous_tables(table_maj_t * tab_maj);
+int RechercheCle(table_maj_t * tab_maj, char * cle, cellule_t ** adresse);
+int RechercheCleSousTable(cellule_t ** premier, char * cle, cellule_t ** adresse);
+int RecherchePrec(cellule_t ** premier, char * cle, cellule_t *** prec);
