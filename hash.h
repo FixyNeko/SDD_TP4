@@ -25,9 +25,11 @@ typedef struct liste
 
 unsigned int hash_string(const char *str);
 void lecture_fichier(char *nom_fichier, table_maj_t * tab_maj);
+void traduction_fichier(char * nomFichier, table_maj_t * tab_maj);
 void ajout_valeur(table_maj_t * tab_maj, char * cle, char * val);
 void init_tab(table_maj_t * tab);
 void affiche_sous_tables(table_maj_t * tab_maj);
 int RechercheCle(table_maj_t * tab_maj, char * cle, cellule_t ** adresse);
 int RechercheCleSousTable(cellule_t ** premier, char * cle, cellule_t ** adresse);
 int RecherchePrec(cellule_t ** premier, char * cle, cellule_t *** prec);
+void tailleMoyenne(table_maj_t * tab_maj);

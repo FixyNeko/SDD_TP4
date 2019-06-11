@@ -29,6 +29,34 @@ void lecture_fichier(char *nom_fichier, table_maj_t * tab_maj)
     }
 }
 
+void traduction_fichier(char * nomFichier, table_maj_t * tab_maj) {
+	FILE* fichier = NULL;
+	char chaine[TAILLE_MAX];
+	int i;
+
+	cellule_t * retour = NULL;
+	int trouve;
+
+    fichier = fopen(nomFichier, "r");
+
+    if (fichier != NULL)
+    {
+    	while (fgets(chaine, TAILLE_MAX, fichier) != NULL)
+        {
+			for(i = 0; i < TAILLE_MAX; i++) { // boucle enlevant le \n en fin de chaine
+				if(chaine[i] == '\n'){
+					chaine[i] = '\0';
+					break;
+				}
+			}
+
+        	trouve = RechercheCle(tab_maj, chaine, &retour);
+			printf("%s : %s\n", chaine, trouve? retour->traduction : "[mot non trouvé]");
+        }
+        fclose(fichier);
+    }
+}
+
 void ajout_valeur(table_maj_t * tab_maj, char *cle, char* val)
 {
 	int index_maj = hash_string(cle);
@@ -99,36 +127,31 @@ int RecherchePrec(cellule_t ** premier, char * cle, cellule_t *** prec) {
 	return (cour != NULL);
 }
 
+void tailleMoyenne(table_maj_t * tab_maj) {
+	int moyenne = 0, elements = 0;
+	int i;
+
+	for(i = 0; i < HASH_MAX; i++) {
+		if(tab_maj[i].taille != 0) {
+			moyenne += tab_maj[i].taille;
+			elements++;
+		}
+	}
+	moyenne /= elements;
+	printf("\ntaille moyenne d'une sous table: %d\n", moyenne);
+}
+
 int main()
 {
-	printf("%d\n",hash_string("hello"));
-	printf("%d\n",hash_string("helo"));
-	printf("%d\n",hash_string("bye"));
-	printf("%d\n",hash_string("sorry"));
-	printf("%d\n",hash_string("baby"));
-	printf("%d\n",hash_string("shark"));
-	printf("%d\n",hash_string("tudududu"));
-	printf("%d\n",hash_string("mommy"));
-	printf("%d\n",hash_string("daddy"));
-
 	table_maj_t tab_maj[HASH_MAX];
 
 	init_tab(tab_maj);
 	lecture_fichier("mots.txt", tab_maj);
-	printf("lecture fichier finie\n");
-	affiche_sous_tables(tab_maj);
+	//affiche_sous_tables(tab_maj);
 
-	cellule_t * retour = NULL;
-	int trouve;
+	traduction_fichier("aTraduire.txt", tab_maj);
 
-	trouve = RechercheCle(tab_maj, "hello", &retour);
-	printf("hello %s: %s\n", trouve? "trouve": "pas trouve", trouve? retour->mot : "");
-
-	trouve = RechercheCle(tab_maj, "bye", &retour);
-	printf("bye %s: %s\n", trouve? "trouve": "pas trouve", trouve? retour->mot : "");
-
-	trouve = RechercheCle(tab_maj, "zgblt", &retour);
-	printf("zgblt %s: %s\n", trouve? "trouve": "pas trouve", trouve? retour->mot : "");
+	tailleMoyenne(tab_maj);
 
 	return 0;
 }
